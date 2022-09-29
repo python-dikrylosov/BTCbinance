@@ -43,7 +43,7 @@ symbol_NEOBTC_symbol = symbol_NEOBTC["symbol"]
 symbol_NEOBTC_price = symbol_NEOBTC["price"]
 
 
-data_safe_close = open('ltcbtc.csv',"a")
+data_safe_close = open('LTCBTC.csv', "a")
 data_safe_close.write(str(time.strftime("%Y-%m-%d %H:%M:%S+00:00")))
 data_safe_close.write(",")
 data_safe_close.write(str(symbol_LTCBTC_price))
@@ -65,7 +65,7 @@ for i in range(0):
     symbol_price = symbol["price"]
     data = [i,symbol_symbol,symbol_price]
     print(data)
-    data_file_safe = open("data.csv","a")
+    data_file_safe = open("data.csv", "a")
     data_file_safe.write(str(data))
     data_file_safe.write(",")
     data_file_safe.write("\n")
@@ -243,53 +243,55 @@ time_hour = str(time.strftime("%H"))
 while True:
         time.sleep(1)
         min_lovume_rub = 150
-        symbol_ETHBTC = info[0]
-        symbol_LTCBTC = info[1]
-        symbol_LTCBTC_symbol = symbol_LTCBTC["symbol"]
-        symbol_LTCBTC_price = symbol_LTCBTC["price"]
-        symbol_BNBBTC = info[2]
-        symbol_NEOBTC = info[3]
-        symbol_BTCUSDT = info[11]
-        symbol_ETHUSDT = info[12]
-        symbol_BNBUSD = info[98]
-        symbol_LTCUSD = info[190]
-        symbol_XRPUSD = info[306]
-        symbol_BTCRUB = info[666]
-        symbol_BTCRUB_symbol = symbol_BTCRUB["symbol"]
-        symbol_BTCRUB_price = symbol_BTCRUB["price"]
-        symbol_DOTUSD = info[954]
-        symbol_AXSUSD = info[1139]
-        # https://python-binance.readthedocs.io/en/latest/overview.html
 
-        BTC_acount = client.get_asset_balance(asset='BTC')
-        # print(BTC_acount)
-        balance_btc = client.get_asset_balance(asset='BTC')
-        # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
-        balance_usd_btc_usd_free_locked_sum = float(balance_btc["free"]) + float(balance_btc["locked"])
-        balance_usd_btc_usd_present = balance_usd_btc_usd_free_locked_sum * float(symbol_BTCUSDT["price"])
-
-        RUB_acount = client.get_asset_balance(asset='RUB')
-        # print(RUB_acount)
-        balance_RUB = client.get_asset_balance(asset='RUB')
-        # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
-        balance_usd_RUB_usd_free_locked_sum = float(balance_RUB["free"]) + float(balance_RUB["locked"])
-        balance_usd_RUB_usd_present = balance_usd_RUB_usd_free_locked_sum * float(symbol_BTCUSDT["price"])
-
-        balance_ETH = client.get_asset_balance(asset='ETH')
-        # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
-        balance_usd_ETH_usd_free_locked_sum = float(balance_ETH["free"]) + float(balance_ETH["locked"])
-        balance_usd_ETH_usd_present = balance_usd_ETH_usd_free_locked_sum * float(symbol_ETHBTC["price"])
-
-        balance_LTC = client.get_asset_balance(asset='LTC')
-        # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
-        balance_usd_LTC_usd_free_locked_sum = float(balance_LTC["free"]) + float(balance_LTC["locked"])
-        balance_usd_LTC_usd_present = balance_usd_LTC_usd_free_locked_sum * float(symbol_LTCBTC["price"])
-
-
-        if time_min != str(time.strftime("%M")):
-            time_min = str(time.strftime("%M"))
-            print(["неравно ", time_min, str(time.strftime("%M"))])
+        if time_hour != str(time.strftime("%H")):
+            time_hour = str(time.strftime("%H"))
+            print(["неравно hour", time_hour, str(time.strftime("%H"))])
             for i in range(1):
+                    symbol_ETHBTC = info[0]
+                    symbol_LTCBTC = info[1]
+                    symbol_LTCBTC_symbol = symbol_LTCBTC["symbol"]
+                    symbol_LTCBTC_price = symbol_LTCBTC["price"]
+                    symbol_BNBBTC = info[2]
+                    symbol_NEOBTC = info[3]
+                    symbol_BTCUSDT = info[11]
+                    symbol_ETHUSDT = info[12]
+                    symbol_BNBUSD = info[98]
+                    symbol_LTCUSD = info[190]
+                    symbol_XRPUSD = info[306]
+                    symbol_BTCRUB = info[666]
+                    symbol_BTCRUB_symbol = symbol_BTCRUB["symbol"]
+                    symbol_BTCRUB_price = symbol_BTCRUB["price"]
+                    symbol_DOTUSD = info[954]
+                    symbol_AXSUSD = info[1139]
+                    # https://python-binance.readthedocs.io/en/latest/overview.html
+
+                    BTC_acount = client.get_asset_balance(asset='BTC')
+                    # print(BTC_acount)
+                    balance_btc = client.get_asset_balance(asset='BTC')
+                    # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+                    balance_usd_btc_usd_free_locked_sum = float(balance_btc["free"]) + float(balance_btc["locked"])
+                    balance_usd_btc_usd_present = balance_usd_btc_usd_free_locked_sum * float(symbol_LTCBTC["price"])
+
+                    balance_usd_btc_usd_free_locked_sum * float(symbol_BTCUSDT["price"])
+
+                    RUB_acount = client.get_asset_balance(asset='RUB')
+                    # print(RUB_acount)
+                    balance_RUB = client.get_asset_balance(asset='RUB')
+                    # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+                    balance_usd_RUB_usd_free_locked_sum = float(balance_RUB["free"]) + float(balance_RUB["locked"])
+                    balance_usd_RUB_usd_present = balance_usd_RUB_usd_free_locked_sum * float(symbol_BTCUSDT["price"])
+
+                    balance_ETH = client.get_asset_balance(asset='ETH')
+                    # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+                    balance_usd_ETH_usd_free_locked_sum = float(balance_ETH["free"]) + float(balance_ETH["locked"])
+                    balance_usd_ETH_usd_present = balance_usd_ETH_usd_free_locked_sum * float(symbol_ETHBTC["price"])
+
+                    balance_LTC = client.get_asset_balance(asset='LTC')
+                    # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+                    balance_usd_LTC_usd_free_locked_sum = float(balance_LTC["free"]) + float(balance_LTC["locked"])
+                    balance_usd_LTC_usd_present = balance_usd_LTC_usd_free_locked_sum * float(symbol_LTCBTC["price"])
+
                     import time
                     import yfinance as yf
                     real_date = str(time.strftime("%Y-%m-%d"))
@@ -317,7 +319,7 @@ while True:
                     symbol_LTCBTC = info[1]
                     symbol_LTCBTC_symbol = symbol_LTCBTC["symbol"]
                     symbol_LTCBTC_price = symbol_LTCBTC["price"]
-                    data_safe_file_LTCBTC = open("LTCBTC.csv","a")
+                    data_safe_file_LTCBTC = open("LTCBTC.csv", "a")
                     data_safe_file_LTCBTC.write(str(time.strftime("%Y-%m-%d %H:%M:%S+00:00")))
                     data_safe_file_LTCBTC.write(",")
                     data_safe_file_LTCBTC.write(str(symbol_LTCBTC_price))
@@ -399,10 +401,10 @@ while True:
                     results = model.evaluate(x_train, y_train, batch_size=1)
                     print("test loss, test acc:", results)
 
-                    model = tf.keras.models.load_model(os.path.join("./dnn/", "LTCBTC_model.h5"))
+                    model = tf.keras.models.load_model(os.path.join("./dnn/", "dnn/LTCBTC_model.h5"))
                     model.fit(x_train, y_train, batch_size=1, epochs=1)
 
-                    model.save(os.path.join("./dnn/", "LTCBTC_model.h5"))
+                    model.save(os.path.join("./dnn/", "dnn/LTCBTC_model.h5"))
                     #reconstructed_model = tf.keras.models.load_model(os.path.join("./dnn/", "BTC-RUB_model.h5"))
 
                     #np.testing.assert_allclose(model.predict(x_train), reconstructed_model.predict(x_train))
@@ -483,7 +485,8 @@ while True:
                         ab_sum = a * b
                         data_coin = float(ab_sum) - min_lovume_btc
                         print(data_coin)
-
+                        quantity = float(min_lovume_btc / float(symbol_LTCBTC_price))
+                        print(quantity)
                         if data_coin <= 0:
                             print([data_coin, a, b])
                             print(ab_sum)
@@ -531,10 +534,10 @@ while True:
                             print(ab_sum)
                             quantity = float(min_lovume_btc / float(symbol_LTCBTC_price))
                             print(quantity)
-                            print("Недостаточно BTC для продажи")
+                            print("Недостаточно LTC для продажи")
                         elif data_coin >= 0:
                             print([data_coin, a, b])
-                            print("\n" + "BUY Покупать за BTC " + str(preset_pred_price))
+                            print("\n" + "BUY Покупать за LTC " + str(preset_pred_price))
                             print(a)
                             quantity = float(min_lovume_btc / float(symbol_LTCBTC_price))
                             quantity_start = round(quantity, 3)
@@ -557,11 +560,11 @@ while True:
                             data_safe_file_LTCBTC.write("\n")
                             data_safe_file_LTCBTC.close()
 
-        elif time_min == str(time.strftime("%M")):
+        elif time_hour == str(time.strftime("%H")):
             for i in range(5):
                 time.sleep(1)
                 print(["pause",i])
-            print(["равно",time_min , str(time.strftime("%H:%M:%S"))])
+            print(["равно hour",time_hour , str(time.strftime("%H"))])
 
 
 
