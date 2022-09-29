@@ -26,6 +26,7 @@ from binance.client import Client
 client = Client(api_key, secret_key)
 
 info = client.get_all_tickers()
+
 symbol_ETHBTC = info[0]
 symbol_ETHBTC_symbol = symbol_ETHBTC["symbol"]
 symbol_ETHBTC_price = symbol_ETHBTC["price"]
@@ -65,7 +66,7 @@ for i in range(0):
     symbol_price = symbol["price"]
     data = [i,symbol_symbol,symbol_price]
     print(data)
-    data_file_safe = open("data.csv", "a")
+    data_file_safe = open("data.csv", "w")
     data_file_safe.write(str(data))
     data_file_safe.write(",")
     data_file_safe.write("\n")
@@ -74,6 +75,8 @@ for i in range(0):
 symbol_ETHBTC = info[0]
 symbol_LTCBTC = info[1]
 symbol_BNBBTC = info[2]
+symbol_BNBBTC_symbol = symbol_BNBBTC["symbol"]
+symbol_BNBBTC_price = symbol_BNBBTC["price"]
 symbol_NEOBTC = info[3]
 symbol_BTCUSDT = info[11]
 symbol_ETHUSDT = info[12]
@@ -111,10 +114,18 @@ balance_LTC = client.get_asset_balance(asset='LTC')
 balance_usd_LTC_usd_free_locked_sum = float(balance_LTC["free"]) + float(balance_LTC["locked"])
 balance_usd_LTC_usd_present = balance_usd_ETH_usd_free_locked_sum * float(symbol_LTCBTC["price"])
 
+symbol_BNBBTC = info[2]
+symbol_BNBBTC_symbol = symbol_BNBBTC["symbol"]
+symbol_BNBBTC_price = symbol_BNBBTC["price"]
+balance_BNB = client.get_asset_balance(asset='BNB')
+# print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+balance_usd_BNB_usd_free_locked_sum = float(balance_BNB["free"]) + float(balance_BNB["locked"])
+balance_usd_BNB_usd_present = balance_usd_BNB_usd_free_locked_sum * float(symbol_BNBBTC["price"])
+
 items = (
                 (0, symbol_ETHBTC_symbol, symbol_ETHBTC_price, balance_btc["free"], balance_ETH["free"]),
                 (1, symbol_LTCBTC_symbol, symbol_LTCBTC_price, balance_btc["free"], balance_LTC["free"]),
-                (2, symbol_BNBBTC_symbol, symbol_BNBBTC_price, balance_btc["free"], balance_RUB["free"]),
+                (2, symbol_BNBBTC_symbol, symbol_BNBBTC_price, balance_btc["free"], balance_BNB["free"]),
                 (3, symbol_NEOBTC_symbol, symbol_NEOBTC_price, balance_btc["free"], balance_RUB["free"]),
                 (666, symbol_BTCRUB_symbol, symbol_BTCRUB_price, balance_btc["free"], balance_RUB["free"]),
             )
@@ -173,9 +184,10 @@ def add_img(image_path, width=None, height=None):
 doc.add_heading(str(data_fc))
 add_img('data_LTCBTC_filter_close.jpg', width=Mm(100))
 
-dataBNBBTC = yf.download("BNB-BTC", start="2014-04-01", end=real_date, interval="1d")
-dataBNBBTC_fc = dataETHBTC.filter(["Close"])
+dataBNBBTC = yf.download("BNB-BTC", start="2022-09-23", end=real_date, interval="1h")
+dataBNBBTC_fc = dataBNBBTC.filter(["Close"])
 #print(dataBNBBTC_fc)
+dataBNBBTC_fcs = dataBNBBTC_fc.to_csv("BNBBTC_1h.csv")
 plt.plot(dataBNBBTC_fc)
 plt.savefig('data_BNBBTC_filter_close.jpg')
 
@@ -244,13 +256,15 @@ while True:
 
         if time_hour != str(time.strftime("%H")):
             time_hour = str(time.strftime("%H"))
-            print(["неравно h", time_hour, str(time.strftime("%H"))])
+            print(["неравно hor", time_hour, str(time.strftime("%H"))])
             for i in range(1):
                     time.sleep(1)
                     min_lovume_rub = 150
                     symbol_ETHBTC = info[0]
                     symbol_LTCBTC = info[1]
                     symbol_BNBBTC = info[2]
+                    symbol_BNBBTC_symbol = symbol_BNBBTC["symbol"]
+                    symbol_BNBBTC_price = symbol_BNBBTC["price"]
                     symbol_NEOBTC = info[3]
                     symbol_BTCUSDT = info[11]
                     symbol_ETHUSDT = info[12]
@@ -288,16 +302,19 @@ while True:
                     balance_usd_LTC_usd_free_locked_sum = float(balance_LTC["free"]) + float(balance_LTC["locked"])
                     balance_usd_LTC_usd_present = balance_usd_ETH_usd_free_locked_sum * float(symbol_LTCBTC["price"])
 
+                    balance_BNB = client.get_asset_balance(asset='BNB')
+                    # print(balance_btc["asset"],balance_btc["free"],balance_btc["locked"])
+                    balance_usd_BNB_usd_free_locked_sum = float(balance_BNB["free"]) + float(balance_BNB["locked"])
+                    balance_usd_BNB_usd_present = balance_usd_BNB_usd_free_locked_sum * float(symbol_BNBBTC["price"])
+
                     import time
                     import yfinance as yf
                     real_date = str(time.strftime("%Y-%m-%d"))
-                    dataETHBTC = yf.download("ETH-BTC", start="2022-09-01", end=real_date, interval="1h")
-                    dataETHBTC_fc = dataETHBTC.filter(["Close"])
-                    dataETHBTC_fc.to_csv("ETHBTC_1h.csv")
+                    dataBNBBTC = yf.download("BNB-BTC", start="2022-01-01", end=real_date, interval="1h")
+                    dataBNBBTC_fc = dataETHBTC.filter(["Close"])
+                    # print(dataBNBBTC_fc)
+                    dataBNBBTC_fcs = dataBNBBTC_fc.to_csv("BNBBTC_1h.csv")
 
-                    print(dataETHBTC_fc)
-                    plt.plot(dataETHBTC_fc)
-                    plt.savefig('data_ETHBTC_filter_close_1m.jpg')
 
                     import os
                     import math
@@ -312,33 +329,31 @@ while True:
                     plt.style.use('fivethirtyeight')
 
                     start_time = time.time()
-                    symbol_ETHBTC = info[0]
-                    symbol_ETHBTC_symbol = symbol_ETHBTC["symbol"]
-                    symbol_ETHBTC_price = symbol_ETHBTC["price"]
-                    data_safe_file_ETHBTC = open("ETHBTC.csv", "a")
+
+                    data_safe_file_ETHBTC = open("BNBBTC.csv", "a")
                     data_safe_file_ETHBTC.write(str(time.strftime("%Y-%m-%d %H:%M:%S+00:00")))
                     data_safe_file_ETHBTC.write(",")
-                    data_safe_file_ETHBTC.write(str(symbol_ETHBTC_price))
-                    data_safe_file_ETHBTC.write(",")
-                    data_safe_file_ETHBTC.write(str(balance_ETH["free"]))
+                    data_safe_file_ETHBTC.write(str(symbol_BNBBTC_price))
                     data_safe_file_ETHBTC.write(",")
                     data_safe_file_ETHBTC.write(str(balance_btc["free"]))
+                    data_safe_file_ETHBTC.write(",")
+                    data_safe_file_ETHBTC.write(str(balance_BNB["free"]))
                     data_safe_file_ETHBTC.write(",")
                     data_safe_file_ETHBTC.write("\n")
                     data_safe_file_ETHBTC.close()
 
-                    data_read_pandas_ETHBTC = pd.read_csv("ETHBTC.csv")
+                    data_read_pandas_BNBBTC = pd.read_csv("BNBBTC.csv")
                     #data_read_pandas_ETHBTC = data_read_pandas_ETHBTC.tail(500)
-                    data_read_pandas_ETHBTC_shape_row,data_read_pandas_ETHBTC_shape_col = data_read_pandas_ETHBTC.shape[0],data_read_pandas_ETHBTC.shape[1]
-                    print(data_read_pandas_ETHBTC.shape)
-                    print([data_read_pandas_ETHBTC_shape_row,data_read_pandas_ETHBTC_shape_col])
+                    data_read_pandas_BNBBTC_shape_row,data_read_pandas_BNBBTC_shape_col = data_read_pandas_BNBBTC.shape[0],data_read_pandas_BNBBTC.shape[1]
+                    print(data_read_pandas_BNBBTC.shape)
+                    print([data_read_pandas_BNBBTC_shape_row,data_read_pandas_BNBBTC_shape_col])
 
-                    filter_ETHBTC_price = data_read_pandas_ETHBTC.filter(["price_ETHBTC"])
+                    filter_BNBBTC_price = data_read_pandas_BNBBTC.filter(["price_BNBBTC"])
 
-                    print(filter_ETHBTC_price)
+                    print(filter_BNBBTC_price)
 
                     # create dATEFRAME CLOSE
-                    data = data_read_pandas_ETHBTC.filter(["price_ETHBTC"])
+                    data = data_read_pandas_BNBBTC.filter(["price_BNBBTC"])
 
                     # data_df_pandas_filter = data_df_pandas.filter(["Well"])
                     print(data)
@@ -397,10 +412,10 @@ while True:
                     results = model.evaluate(x_train, y_train, batch_size=1)
                     print("test loss, test acc:", results)
 
-                    model = tf.keras.models.load_model(os.path.join("./dnn/", "dnn/ETHBTC_model.h5"))
+                    #model = tf.keras.models.load_model(os.path.join("./dnn/", "BNBBTC_model.h5"))
                     model.fit(x_train, y_train, batch_size=1, epochs=1)
 
-                    model.save(os.path.join("./dnn/", "dnn/ETHBTC_model.h5"))
+                    model.save(os.path.join("./dnn/", "dnn/BNBBTC_model.h5"))
                     #reconstructed_model = tf.keras.models.load_model(os.path.join("./dnn/", "BTC-RUB_model.h5"))
 
                     #np.testing.assert_allclose(model.predict(x_train), reconstructed_model.predict(x_train))
@@ -435,7 +450,7 @@ while True:
 
                     # get the quate
 
-                    new_df = data_read_pandas_ETHBTC.filter(["price_ETHBTC"])
+                    new_df = data_read_pandas_BNBBTC.filter(["price_BNBBTC"])
 
                     # get teh last 60 days closing price values and convert the dataframe to an array
                     last_60_days = new_df[-60:].values
@@ -473,35 +488,35 @@ while True:
 
                     #pred_price = float(symbol_BTCRUB_price) + float(random.randint(-1000,1000))
 
-                    if preset_pred_price <= float(symbol_ETHBTC_price):
+                    if preset_pred_price <= float(symbol_BNBBTC_price):
                         info = client.get_all_tickers()
-                        symbol_ETHBTC = info[0]
+                        symbol_BNBBTC = info[2]
                         a = float(1)
                         b = float(balance_btc["free"])
                         ab_sum = a * b
                         data_coin = float(ab_sum) - min_lovume_btc
                         print(data_coin)
-                        quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
+                        quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
                         print(quantity)
                         if data_coin <= 0:
                             print([data_coin, a, b])
                             print(ab_sum)
-                            quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
+                            quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
                             print(quantity)
                             print("Недостаточно  btc")
                         elif data_coin >= 0:
                             print([data_coin, a, b])
                             print("\n" + "SELL Покупать btc  " + str(preset_pred_price))
                             print(a)
-                            quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
-                            quantity_start = round(quantity, 4)
+                            quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
+                            quantity_start = round(quantity, 3)
                             print(quantity_start)
-                            order = client.order_limit_buy(symbol='ETHBTC',quantity=quantity_start,price=preset_pred_price)
+                            order = client.order_limit_buy(symbol='BNBBTC',quantity=quantity_start,price=preset_pred_price)
                             print(order)
-                            data_safe_file_BTCRUB = open("ETHBTCorder.csv", "a")
+                            data_safe_file_BTCRUB = open("BNBBTCorder.csv", "a")
                             data_safe_file_BTCRUB.write(str(time.strftime("%Y-%m-%d %H:%M:%S+00:00")))
                             data_safe_file_BTCRUB.write(",")
-                            data_safe_file_BTCRUB.write(str(symbol_ETHBTC_price))
+                            data_safe_file_BTCRUB.write(str(symbol_BNBBTC_price))
                             data_safe_file_BTCRUB.write(",")
                             data_safe_file_BTCRUB.write(str(order))
                             data_safe_file_BTCRUB.write(",")
@@ -510,35 +525,35 @@ while True:
 
 
 
-                    elif preset_pred_price >= float(symbol_ETHBTC_price):
+                    elif preset_pred_price >= float(symbol_BNBBTC_price):
                         info = client.get_all_tickers()
-                        symbol_ETHBTC = info[0]
-                        a = float(symbol_ETHBTC_price)
-                        b = float(balance_ETH["free"])
+                        symbol_BNBBTC = info[2]
+                        a = float(symbol_BNBBTC_price)
+                        b = float(balance_BNB["free"])
                         ab_sum = a * b
                         data_coin = float(ab_sum) - min_lovume_btc
                         print(data_coin)
-                        quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
+                        quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
                         print(quantity)
                         if data_coin <= 0:
                             print([data_coin, a, b])
                             print(ab_sum)
-                            quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
+                            quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
                             print(quantity)
-                            print("Недостаточно ETH для продажи")
+                            print("Недостаточно BNB для продажи")
                         elif data_coin >= 0:
                             print([data_coin, a, b])
-                            print("\n" + "BUY Покупать за ETH " + str(preset_pred_price))
+                            print("\n" + "BUY Покупать за BNB " + str(preset_pred_price))
                             print(a)
-                            quantity = float(min_lovume_btc / float(symbol_ETHBTC_price))
-                            quantity_start = round(quantity, 4)
+                            quantity = float(min_lovume_btc / float(symbol_BNBBTC_price))
+                            quantity_start = round(quantity, 3)
                             print(quantity_start)
-                            order = client.order_limit_sell(symbol='ETHBTC',quantity=quantity_start,price=preset_pred_price)
+                            order = client.order_limit_sell(symbol='BNBBTC',quantity=quantity_start,price=preset_pred_price)
                             print(order)
-                            data_safe_file_ETHBTC = open("ETHBTCorder.csv", "a")
+                            data_safe_file_ETHBTC = open("BNBBTCorder.csv", "a")
                             data_safe_file_ETHBTC.write(str(time.strftime("%Y-%m-%d %H:%M:%S+00:00")))
                             data_safe_file_ETHBTC.write(",")
-                            data_safe_file_ETHBTC.write(str(symbol_ETHBTC_price))
+                            data_safe_file_ETHBTC.write(str(symbol_BNBBTC_price))
                             data_safe_file_ETHBTC.write(",")
                             data_safe_file_ETHBTC.write(str(order))
                             data_safe_file_ETHBTC.write(",")
@@ -549,7 +564,7 @@ while True:
             for i in range(5):
                 time.sleep(1)
                 print(["pause",i])
-            print(["равно h",time_hour , str(time.strftime("%H"))])
+            print(["равно hour",time_hour , str(time.strftime("%H"))])
 
 
 
